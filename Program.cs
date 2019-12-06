@@ -1,7 +1,6 @@
 ﻿//TODO: 
 //- Rewrite password memorization practice to be recursive
 //- Organize methods into appropriate classes
-//- Add time elapsed timer for multiple password generation
 //- Add option to use modifying operations when using multiple password generation
 //- Add proper notes
 
@@ -12,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Diagnostics;
 using static System.Console;
 
 namespace PasswordGen
@@ -284,9 +284,12 @@ namespace PasswordGen
                         {
                             var failCount = 0;
                             var wordListBackup = new List<string>(wordList);
+                            var stopwatch = Stopwatch.StartNew();
 
                             Clear();
                             WriteLine("Please wait while passwords generate...");
+
+
 
                             for (int i = 0; i < passwordsToGenerate; i++)
                             {
@@ -317,8 +320,12 @@ namespace PasswordGen
 
                             else
                             {
-                                WriteLine("Save successful, returning to menu.");
-                                Thread.Sleep(600);
+                                var elapsedSeconds = stopwatch.Elapsed.TotalSeconds;
+
+                                WriteLine("\nSave successful, total time to complete: " + elapsedSeconds + " seconds");
+                                Write("Press any key to continue...");
+                                ReadKey();
+
                             }
 
                             wordList.Clear();
